@@ -3,6 +3,7 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var autoprefixer = require('autoprefixer');
 var webpack = require('webpack');
 var staticFolder = path.resolve(__dirname, 'static');
+//var hackLoader = require('./hackLoader');
 
 module.exports = {
     content: __dirname,
@@ -15,6 +16,11 @@ module.exports = {
         filename: "bundle.js"
     },
     devtool: 'eval-source-map',
+    resolveLoader: {
+        alias: {
+            'hack': path.join(__dirname, './hack-loader')
+        }
+    },
     resolve: {
         extensions: ['', '.js', '.jsx', '.scss'],
         modulesDirectories: [
@@ -25,6 +31,7 @@ module.exports = {
     module: {
         loaders: [
             { test: /\.css$/, loader: "style!css" },
+            { test: /(FontIcon.js)$/, loader: "babel!hack" },
             { test: /(\.jsx|\.js)$/, loader: "babel", exclude: /node_modules/ },
             { test: /.(png|woff(2)?|eot|ttf|svg)(\?[a-z0-9=\.]+)?$/, loader: 'url-loader?limit=100000' },
             { test: /(\.scss)$/, loader: ExtractTextPlugin.extract('style', 'css?sourceMap&modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss!sass?sourceMap!toolbox') }
