@@ -22,9 +22,16 @@ db().then(store => {
     const users = {};
 
     app.use('/assets', express.static(staticFolder));
-    app.get('/migrate', (req, res) => {
-        migrate2to3(store);
-        res.send('ok');
+    // app.get('/migrate', (req, res) => {
+    //     migrate2to3(store);
+    //     res.send('ok');
+    // });
+    app.get('/api/exists/:name', (req, res) => {
+        store.exists(req.params.name).then(exists => {
+            res.send({ exists });
+        }).catch(err => {
+            res.send(500, err);
+        });
     });
     app.get('/*', (req, res) => res.sendFile(htmlFile));
 

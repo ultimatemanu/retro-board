@@ -34,7 +34,8 @@ export default {
         advancedTab: {
             header: 'Geavanceerd',
             input: 'Geef een naam voor de sessie',
-            button: 'Maak een aangepaste sessie'
+            button: 'Maak een aangepaste sessie',
+            alreadyExistsError: 'This session already exists'
         }
     },
     Login: {

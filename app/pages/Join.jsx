@@ -4,18 +4,23 @@ import Component from '../Component';
 import Input from 'react-toolbox/lib/input';
 import Button from 'react-toolbox/lib/button';
 import { connect } from 'react-redux';
-import { createSession } from '../state/session';
+import { createSession, checkExistence } from '../state/session';
 import translate from '../i18n/Translate';
 import { Card, CardMedia, CardTitle, CardText, CardActions } from 'react-toolbox/lib/card';
 import { Tab, Tabs } from 'react-toolbox';
 import icons from '../constants/icons';
 import backgroundImage from '../components/images/background.jpg';
+import { doesNameExists, isExistenceCheckPending } from '../selectors';
 
-const stateToProps = state => ({ });
+const stateToProps = state => ({
+    doesNameExists: doesNameExists(state),
+    isExistenceCheckPending: isExistenceCheckPending(state)
+});
 
 const actionsToProps = dispatch => ({
     createSession: () => dispatch(createSession()),
     createCustomSession: name => dispatch(createSession(name)),
+    checkExistence: name => dispatch(checkExistence(name))
 });
 
 @translate('Join')
@@ -26,7 +31,7 @@ class Join extends Component {
         this.state = { tabIndex: 0, customSessionName: '' };
     }
     render() {
-        const { strings } = this.props;
+        const { strings, checkExistence, doesNameExists, isExistenceCheckPending } = this.props;
         return (
             <div style={{padding: 20 }}>
             <Card raised>
@@ -41,9 +46,17 @@ class Join extends Component {
                             <Button label={ strings.standardTab.button } accent raised onClick={this.props.createSession} />
                         </Tab>
                         <Tab label={ strings.advancedTab.header }>
-                            <Input label={ strings.advancedTab.input } required icon={icons.create} value={this.state.customSessionName} onChange={v => this.setState({ customSessionName: v })} />
+                            <Input label={ strings.advancedTab.input }
+                                   required
+                                   error={doesNameExists ? strings.advancedTab.alreadyExistsError : null }
+                                   icon={icons.create}
+                                   value={this.state.customSessionName}
+                                   onChange={v => {
+                                       checkExistence(v);
+                                       this.setState({ customSessionName: v });
+                                   }} />
                             <br />
-                            <Button label={ strings.advancedTab.button } disabled={!this.state.customSessionName} accent raised onClick={() => this.props.createCustomSession(this.state.customSessionName)} />
+                            <Button label={ strings.advancedTab.button } disabled={!this.state.customSessionName || doesNameExists !== false || isExistenceCheckPending} accent raised onClick={() => this.props.createCustomSession(this.state.customSessionName)} />
                         </Tab>
                     </Tabs>
 
@@ -57,12 +70,18 @@ class Join extends Component {
 Join.propTypes = {
     createSession: PropTypes.func,
     createCustomSession: PropTypes.func,
+    checkExistence: PropTypes.func,
+    doesNameExists: PropTypes.bool,
+    isExistenceCheckPending: PropTypes.bool,
     strings: PropTypes.object
 };
 
 Join.defaultProps = {
     createSession: noop,
     createCustomSession: noop,
+    checkExistence: noop,
+    doesNameExists: false,
+    isExistenceCheckPending: false,
     strings: {
         welcome: 'Welcome to Retrospected',
         standardTab: {
@@ -73,7 +92,8 @@ Join.defaultProps = {
         advancedTab: {
             header: 'Advanced',
             input: 'Enter a name for your session',
-            button: 'Create custom session'
+            button: 'Create custom session',
+            alreadyExistsError: 'This name is already taken'
         }
     }
 }

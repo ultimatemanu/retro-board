@@ -35,7 +35,8 @@ export default {
         advancedTab: {
             header: 'Advanced',
             input: 'Enter a name for your session',
-            button: 'Create custom session'
+            button: 'Create custom session',
+            alreadyExistsError: 'This name is already taken'
         }
     },
     Login: {

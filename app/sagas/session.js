@@ -1,7 +1,8 @@
 import { call, put, select } from 'redux-saga/effects';
 import { push } from 'react-router-redux';
+import { exists } from '../api';
 import uuid from 'node-uuid';
-import { JOIN_SESSION, CREATE_SESSION_SUCCESS, RECEIVE_CLIENT_LIST } from '../state/session';
+import { JOIN_SESSION, CREATE_SESSION_SUCCESS, RECEIVE_CLIENT_LIST, CHECK_EXISTENCE_PENDING, CHECK_EXISTENCE_SUCCESS } from '../state/session';
 
 export function* autoJoinUser(action) {
     const sessionId = action.payload;
@@ -23,4 +24,15 @@ export function* createSession(action) {
     yield put({ type: JOIN_SESSION, payload: { sessionId, user }});
     yield put({ type: RECEIVE_CLIENT_LIST, payload: [ user ]});
     yield put(push('/session/'+sessionId));
+}
+
+export function* checkExistence(action) {
+    const name = action.payload;
+    if (name === '') {
+        yield put({ type: CHECK_EXISTENCE_SUCCESS, payload: { name, exists: false }});
+    } else {
+        yield put({ type: CHECK_EXISTENCE_PENDING, payload: { name }});
+        const nameExists = yield call(exists, name);
+        yield put({ type: CHECK_EXISTENCE_SUCCESS, payload: { name, exists: nameExists }});
+    }
 }

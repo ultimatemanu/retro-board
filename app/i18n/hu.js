@@ -34,7 +34,8 @@ export default {
         advancedTab: {
             header: 'Haladó',
             input: 'Adj nevet az ülésnek',
-            button: 'Ülés létrehozása'
+            button: 'Ülés létrehozása',
+            alreadyExistsError: 'This session already exists'
         }
     },
     Login: {

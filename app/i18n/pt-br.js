@@ -34,7 +34,8 @@ export default {
         advancedTab: {
             header: 'Avançado',
             input: 'Insira um nome para sua seção',
-            button: 'Crie uma seção customizada'
+            button: 'Crie uma seção customizada',
+            alreadyExistsError: 'This session already exists'
         }
     },
     Login: {

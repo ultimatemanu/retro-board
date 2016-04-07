@@ -22,11 +22,11 @@ export default function db() {
         store.once('open', () => {
             resolve({
                 get: get(store),
-                set: set(store)
+                set: set(store),
+                exists: exists(store)
             })
         });
     });
-
 }
 
 const get = store => sessionId => {
@@ -48,7 +48,6 @@ const get = store => sessionId => {
             }
         });
     });
-
 }
 
 const set = store => session => {
@@ -62,5 +61,16 @@ const set = store => session => {
             }
         });
     });
+}
 
+const exists = store => sessionId => {
+    return new Promise((resolve, reject) => {
+        Session.find({ id: sessionId }, (err, sessions) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(!!sessions.length);
+            }
+        });
+    });
 }

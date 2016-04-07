@@ -7,7 +7,8 @@ export default function db() {
     const store = new Datastore({ filename: dbFile, autoload: true });
     return Promise.resolve({
         get: get(store),
-        set: set(store)
+        set: set(store),
+        exists: exists(store)
     });
 }
 
@@ -39,6 +40,18 @@ const set = store => session => {
                 reject(err);
             } else {
                 resolve(session);
+            }
+        });
+    });
+}
+
+const exists = store => sessionId => {
+    return new Promise((resolve, reject) => {
+        store.find({ id: sessionId }, (err, sessions) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(!!sessions.length);
             }
         });
     });

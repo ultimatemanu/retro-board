@@ -1,12 +1,12 @@
 import { takeEvery, takeLatest } from 'redux-saga'
 import { AUTO_LOGIN, LOGIN, LOGOUT, CHANGE_LANGUAGE } from '../state/user';
-import { AUTO_JOIN, LEAVE_SESSION, CREATE_SESSION } from '../state/session';
+import { AUTO_JOIN, LEAVE_SESSION, CREATE_SESSION, CHECK_EXISTENCE } from '../state/session';
 import { ADD_POST, LIKE } from '../state/posts';
 import { INITIALISE } from '../state/actions';
 
 import { storeUserToLocalStorage, deleteUserFromLocalStorage, storeLanguageToLocalStorage, loginSuccess, changeLanguageSuccess, disconnectUser, autoLoginUser } from './user';
 import { addPost, like } from './posts';
-import { autoJoinUser, createSession } from './session';
+import { autoJoinUser, createSession, checkExistence } from './session';
 
 const watchers = [
     function* () { yield* takeEvery(AUTO_LOGIN, autoLoginUser); },
@@ -17,6 +17,7 @@ const watchers = [
     function* () { yield* takeEvery(LEAVE_SESSION, disconnectUser); },
     function* () { yield* takeEvery(ADD_POST, addPost); },
     function* () { yield* takeEvery(CREATE_SESSION, createSession); },
+    function* () { yield* takeEvery(CHECK_EXISTENCE, checkExistence); },
     function* () { yield* takeEvery(LIKE, like); }
 ];
 

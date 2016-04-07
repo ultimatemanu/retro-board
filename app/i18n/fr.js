@@ -34,7 +34,8 @@ export default {
         advancedTab: {
             header: 'Avancé',
             input: 'Donnez un nom à votre session',
-            button: 'Créer une session personalisée'
+            button: 'Créer une session personalisée',
+            alreadyExistsError: 'Ce nom est déjà pris'
         }
     },
     Login: {
