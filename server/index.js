@@ -6,7 +6,7 @@ import uuid from 'node-uuid';
 import find from 'lodash/find';
 import chalk from 'chalk';
 import db from './db';
-import migrate2to3 from './migrate2to3';
+import graphql from './graph-ql';
 
 const app = express();
 const httpServer = http.Server(app);
@@ -25,10 +25,7 @@ db().then(store => {
     app.use('/assets', express.static(assetsFolder));
     app.use('/static', express.static(staticFolder));
     app.use('/favicon.ico', express.static(path.resolve(staticFolder, 'favicon.ico')));
-    app.get('/migrate', (req, res) => {
-        migrate2to3(store);
-        res.send('ok');
-    });
+    app.use('/graphql', graphql(store));
     app.get('/*', (req, res) => res.sendFile(htmlFile));
 
     io.on('connection', socket => {
