@@ -1,8 +1,12 @@
-import { graphql, GraphQLObjectType, GraphQLSchema, GraphQLString, GraphQLID, GraphQLList } from 'graphql';
+import {
+    GraphQLObjectType,
+    GraphQLSchema,
+    GraphQLString,
+    GraphQLID,
+    GraphQLList } from 'graphql';
 import graphqlHTTP from 'express-graphql';
 
 export default function factory(store) {
-
     const postType = new GraphQLObjectType({
         name: 'Post',
         fields: {
@@ -20,7 +24,7 @@ export default function factory(store) {
         fields: {
             id: { type: GraphQLID },
             name: { type: GraphQLString },
-            posts: { type: new GraphQLList(postType)}
+            posts: { type: new GraphQLList(postType) }
         }
     });
 
@@ -33,13 +37,11 @@ export default function factory(store) {
                     args: {
                         id: { type: GraphQLString }
                     },
-                    resolve: (_, args) => {
-                        return store.get(args.id);
-                    }
+                    resolve: (_, args) => store.get(args.id)
                 }
             }
         })
     });
 
-    return graphqlHTTP({ schema, pretty: true});
+    return graphqlHTTP({ schema, pretty: true });
 }
