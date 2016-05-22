@@ -4,7 +4,7 @@ import flow from 'lodash/flow';
 import Component from '../Component';
 import Button from 'react-toolbox/lib/button';
 import AppBar from 'react-toolbox/lib/app_bar';
-import Drawer from 'react-toolbox/lib/drawer';
+import Drawer from 'react-motion-drawer';
 import Navigation from 'react-toolbox/lib/navigation';
 import Switch from 'react-toolbox/lib/switch';
 import { connect } from 'react-redux';
@@ -65,15 +65,17 @@ class Header extends Component {
                               floating
                               accent
                               mini
+                              tabIndex={-1}
                               onClick={() => this.setState({ drawerOpen: !this.drawerOpen })}
                             /> :
                             null }
                     </Navigation>
                 </AppBar>
 
-                <Drawer active={this.state.drawerOpen}
-                  type="right"
-                  onOverlayClick={() => this.setState({ drawerOpen: false })}
+                <Drawer open={this.state.drawerOpen}
+                  right
+                  drawerStyle={{ zIndex: 11000, background: 'white' }}
+                  onChange={drawerOpen => this.setState({ drawerOpen })}
                 >
                     <TranslationProvider>
                         <div style={{ margin: '0 10px' }}>

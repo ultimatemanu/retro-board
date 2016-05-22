@@ -13,6 +13,7 @@ class EnterInput extends Component {
 
     onKeyPress(e) {
         if (e.keyCode === 13) {
+            e.preventDefault();
             this.props.onEnter(this.state.value);
             this.setState({ value: '' });
         }

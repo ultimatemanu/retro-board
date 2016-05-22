@@ -13,6 +13,7 @@ export default class EditableLabel extends Component {
 
     onKeyPress(e) {
         if (e.keyCode === 13) {
+            e.preventDefault();
             this.setState({ editMode: false });
         }
     }
