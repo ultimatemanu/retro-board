@@ -51,12 +51,7 @@ class Join extends Component {
       <Tab label={ strings.standardTab.header } key="standard">
         <h5>{ strings.welcome }</h5><br />
         { strings.standardTab.text }<br /><br />
-        <Button
-          label={ strings.standardTab.button }
-          accent
-          raised
-          onClick={ this.props.createSession }
-        />
+        <Button primary onClick={this.props.createSession}>{ strings.standardTab.button }</Button>
       </Tab>
     );
   }

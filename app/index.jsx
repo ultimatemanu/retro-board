@@ -5,6 +5,7 @@ import 'react-toolbox/lib/commons.scss';
 import { render } from 'react-dom';
 import React from 'react';
 import { AppContainer } from 'react-hot-loader';
+import '../retrospected-theme/semantic.less';
 import App from './app';
 
 const rootElement = document.getElementById('content');

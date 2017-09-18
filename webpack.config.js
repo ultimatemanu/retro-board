@@ -23,14 +23,24 @@ module.exports = {
       path.resolve('./app'),
       'node_modules',
       path.resolve(__dirname, './node_modules')
-    ]
+    ],
+    alias: {
+      '../../theme.config$': path.join(__dirname, 'retrospected-theme/theme.config')
+    }
   },
   module: {
     rules: [
       { enforce: 'pre', test: /(\.jsx|\.js)$/, use: ['eslint-loader'] },
 
       { test: /\.css$/, use: ['style-loader', 'css-loader'] },
-      { test: /(\.jsx|\.js)$/, loader: 'babel-loader', exclude: /node_modules/ },
+      {
+        test: /(\.jsx|\.js)$/,
+        use: [
+          'babel-loader',
+          'semantic-ui-react-less-loader'
+        ],
+        exclude: /node_modules\/(?!(semantic-ui-react|ANOTHER-ONE)\/).*/
+      },
       { test: /\.svg$/, loader: 'url-loader?limit=10' },
       { test: /\.png$/, loader: 'url-loader?limit=10000&mimetype=image/png' },
       { test: /\.jpg$/, loader: 'url-loader?limit=10000&mimetype=image/jpeg' },
@@ -46,6 +56,24 @@ module.exports = {
             }
           }
         ]
+      },
+      {
+        test: /\.less$/,
+        use: [{
+          loader: 'style-loader' // creates style nodes from JS strings
+        }, {
+          loader: 'css-loader' // translates CSS into CommonJS
+        }, {
+          loader: 'less-loader' // compiles Less to CSS
+        }]
+      },
+      {
+        test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+        loader: 'url-loader?limit=10000&mimetype=application/fontwoff'
+      },
+      {
+        test: /\.gif$|\.ttf$|\.eot$/,
+        use: 'file-loader?name=[name].[ext]?[hash]'
       }
     ]
   },

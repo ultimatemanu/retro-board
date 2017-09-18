@@ -1,4 +1,4 @@
-import { Button } from 'react-toolbox/lib/button';
+import Button from 'semantic-ui-react/src/elements/Button/Button';
 
 export { IconButton } from 'react-toolbox/lib/button';
 
