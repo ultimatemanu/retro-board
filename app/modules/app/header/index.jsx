@@ -4,7 +4,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import noop from 'lodash/noop';
 import flow from 'lodash/flow';
-import AppBar from 'react-toolbox/lib/app_bar';
+import AppBar from 'components/AppBar';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import translate from 'i18n/Translate';

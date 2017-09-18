@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Layout, Panel } from 'react-toolbox/lib/layout';
+import { Layout, Panel } from 'components/Layout';
 import { Route, Switch } from 'react-router';
 import Home from 'modules/home';
 import Board from 'modules/board';

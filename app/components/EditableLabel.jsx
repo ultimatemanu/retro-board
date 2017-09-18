@@ -4,7 +4,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import noop from 'lodash/noop';
-import FontIcon from 'react-toolbox/lib/font_icon';
+import FontIcon from 'components/FontIcon';
 import style from './EditableLabel.scss';
 import icons from '../constants/icons';
 

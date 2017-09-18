@@ -3,7 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import noop from 'lodash/noop';
 import flow from 'lodash/flow';
-import Button from 'react-toolbox/lib/button';
+import Button from 'components/Button';
 import translate from 'i18n/Translate';
 import icons from 'constants/icons';
 import { logout } from '../state';

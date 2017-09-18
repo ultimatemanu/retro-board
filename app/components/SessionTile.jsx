@@ -3,7 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import noop from 'lodash/noop';
 import flow from 'lodash/flow';
-import { ListItem } from 'react-toolbox/lib/list';
+import { ListItem } from 'components/List';
 import moment from 'moment';
 import md5 from 'md5';
 import { getCurrentLanguageInfo } from 'modules/user/selectors';

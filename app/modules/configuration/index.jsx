@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
-import Drawer from 'react-toolbox/lib/drawer';
+import Drawer from 'components/Drawer';
 import LanguagePicker from 'components/LanguagePicker';
 import LogoutButton from 'modules/user/components/LogoutButton';
 import Clients from './components/Clients';

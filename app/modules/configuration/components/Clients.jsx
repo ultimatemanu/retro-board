@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import flow from 'lodash/flow';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { List, ListItem, ListSubHeader } from 'react-toolbox/lib/list';
+import { List, ListItem, ListSubHeader } from 'components/List';
 import md5 from 'md5';
 import icons from 'constants/icons';
 import translate from 'i18n/Translate';

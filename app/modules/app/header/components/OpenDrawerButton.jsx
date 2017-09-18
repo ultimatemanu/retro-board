@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import noop from 'lodash/noop';
 import flow from 'lodash/flow';
-import { IconButton } from 'react-toolbox/lib/button';
+import { IconButton } from 'components/Button';
 import translate from 'i18n/Translate';
 import { shouldDisplayDrawerButton } from 'modules/configuration/selectors';
 import { openDrawer } from 'modules/configuration/state';

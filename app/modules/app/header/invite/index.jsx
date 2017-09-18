@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
-import { Button, IconButton } from 'react-toolbox/lib/button';
-import Dialog from 'react-toolbox/lib/dialog';
+import Button, { IconButton } from 'components/Button';
+import Dialog from 'components/Dialog';
 import flow from 'lodash/flow';
 import Clipboard from 'react-copy-to-clipboard';
 import translate from 'i18n/Translate';

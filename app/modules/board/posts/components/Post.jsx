@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import noop from 'lodash/noop';
-import { Card, CardText, CardActions } from 'react-toolbox/lib/card';
-import Button from 'react-toolbox/lib/button';
+import { Card, CardText, CardActions } from 'components/Card';
+import Button from 'components/Button';
 import classNames from 'classnames';
 import EditableLabel from 'components/EditableLabel';
 import icons from 'constants/icons';

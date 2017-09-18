@@ -3,7 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import noop from 'lodash/noop';
 import flow from 'lodash/flow';
-import Switch from 'react-toolbox/lib/switch';
+import Switch from 'components/Switch';
 import translate from 'i18n/Translate';
 import { getSummaryMode } from '../selectors';
 import { toggleSummaryMode } from '../state';

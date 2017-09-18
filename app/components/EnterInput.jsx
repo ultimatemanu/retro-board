@@ -1,6 +1,6 @@
 /* eslint react/no-string-refs:0 */
 
-import Input from 'react-toolbox/lib/input';
+import Input from 'components/Input';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import noop from 'lodash/noop';
