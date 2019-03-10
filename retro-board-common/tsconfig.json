@@ -3,7 +3,7 @@
     "outDir": "./dist",
     "target": "es5",
     "allowJs": false,
-    "skipLibCheck": false,
+    "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "strict": true,
