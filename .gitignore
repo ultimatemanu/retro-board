@@ -41,4 +41,5 @@ stats
 
 # intellij ide
 .idea/
-package-lock.json
+dist/
+configuration.json

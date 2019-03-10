@@ -1,61 +1,82 @@
+# Todo
+
+- https://medium.com/superhighfives/an-almost-static-stack-6df0a2791319
+
 # retro-board
 
 This is a Retrospective Idea board, powering [retrospected.com](http://www.retrospected.com).
 
-![Retrospected.com](/content/screenshot-v4.png?raw=true 'Retrospected.com')
+![Retrospected.com](/content/screenshot-v1.png?raw=true 'Retrospected.com')
 
 This project is both an actual product, and also a technology demo using the latest and greatest JavaScript libraries of the month.
 
 It features the following technologies:
 
 - [React 16](https://github.com/facebook/react)
-- [Redux](https://github.com/reactjs/redux)
+- [React Hooks](https://reactjs.org/docs/hooks-intro.html)
 - [React Router 4](https://github.com/ReactTraining/react-router)
+- [Mono Repo / Yarn Workspaces](https://yarnpkg.com/lang/en/docs/workspaces)
+- [TypeScript](https://www.typescriptlang.org/)
 - [Socket IO](http://socket.io)
 - [Webpack 4](https://github.com/webpack/webpack) (See older versions for Webpack 1, 2 and 3)
 - [Hot-reloading](https://webpack.github.io/docs/hot-module-replacement.html)
 - [Material UI design](https://www.google.com/design/spec/material-design/introduction.html)
-- [CSS Modules](https://github.com/css-modules/css-modules)
-- [redux-saga](https://github.com/yelouafi/redux-saga)
-- [reselect](https://github.com/reactjs/reselect)
+- [Styled Components](https://www.styled-components.com/)
 - [Multilingual](https://stackoverflow.com/questions/33413880/react-redux-and-multilingual-internationalization-apps-architecture) / Internationalization
 - [MongoDB](https://www.mongodb.org/) (optional), defaults to [NeDB](https://github.com/louischatriot/nedb) (in-process)
-- [ESLint](http://eslint.org/) for JS and JSX
 - [Jest](https://facebook.github.io/jest) for Unit Testing
-- [Yarn](https://yarnpkg.com/en/) to replace NPM
+- [Yarn](https://yarnpkg.com/en/), replacing NPM
 
-## How to run for production (or to try it out)
+Previous versions, up to v1.0.1 featured the following libraries:
+
+- ~~[Redux](https://github.com/reactjs/redux)~~
+- ~~[CSS Modules](https://github.com/css-modules/css-modules)~~
+- ~~[redux-saga](https://github.com/yelouafi/redux-saga)~~
+- ~~[reselect](https://github.com/reactjs/reselect)~~
+- ~~[ESLint](http://eslint.org/) for JS and JSX~~
+
+## Prerequisites
+
+- `Yarn`: Please install Yarn, as this mono-repo uses **Yarn Workspaces** which won't work with NPM.
+
+## How to try it out
 
 - Clone this repository
 - Switch to the `master` branch (the default is `develop` which might not be stable)
-- `yarn` to install the dependencies (or `npm i`) (Node 4+, NPM 3+)
-- `npm run build` to build everything (client and server)
-- `npm start` to run the server on port 8080
-- Open your browser on [http://localhost:8080](http://localhost:8080)
+- `yarn` to install the dependencies (_not_ `npm i`!)
+- `yarn start` to transpile the server, run the server on port 8080 and start the UI
+- Open your browser on [http://localhost:3000](http://localhost:3000)
 
 ## How to run for development
 
 - Clone this repository
-- `yarn` to install the dependencies (or `npm i`) (Node 4+, NPM 3+)
+- `yarn` to install the dependencies (_not_ `npm i`!)
 - Open another terminal (you need two of those)
-- `npm run start-server` on the first terminal to start the server bit
-- `npm run start-ui` on the second terminal, to run live webpack with hot-reload
-- Open your browser on [http://localhost:8081](http://localhost:8081)
+- `yarn start-server` on the first terminal to start the server bit
+- `yarn start-ui` on the second terminal, to run live webpack with hot-reload
+- Open your browser on [http://localhost:3000](http://localhost:3000)
+
+## How to run for production
+
+- Clone this repository
+- `yarn` to install the dependencies (_not_ `npm i`!)
+- Build the server: `yarn build-server`, then run the server manually in one process: `node ./retro-board-server/dist/index.js`.
+- Build the ui: `yarn build-ui`, then serve the content (`./retro-board-app/build`) using your favourite Web Server (Apache, Nginx etc.)
 
 ## How to run the tests
 
 - Clone this repository
-- `yarn` to install the dependencies (or `npm i`) (Node 4+, NPM 3+)
+- `yarn` to install the dependencies (_not_ `npm i`!)
 - `npm test` to run the tests
-- **or** `npm run test-watch` to run the tests every time you change a file
+- **or** `yarn test-watch` to run the tests every time you change a file
 
 ## How to use Google Analytics
 
 By default, Google Analytics is deactivated (it doesn't even get built into the bundle).
 
-To enable it, create a configuration file by copying `/config/configuration_template.json` to `/config/configuration.json`, and set it up by pasting your GA tracking ID, and setting the other setting to true, then rebuild.
+To enable it, you'll need to create a local `.env` file in `./retro-board-app/env.local` by copy-pasting the existing `.env` file in the same directory. To enable Google Analytics, simply add your GA Tracking ID like so: `REACT_APP_GA_ID=UA-&2345678-1`.
 
-Note: Google Analytics only works when using the production webpack config.
+Note: Google Analytics only works when using the production webpack config (i.e. when `NODE_ENV` is set to `production`).
 
 ## How to use MongoDB
 
@@ -67,8 +88,8 @@ If you want to use a more "production-ready" database such as MongoDB, create th
 
 ### Debugging the server
 
-- Run `npm run start-server-debug`
-- Don't forget to start the client side as well `npm run start-ui`
+- Run `yarn start-server-debug`
+- Don't forget to start the client side as well `yarn start-ui`
 - A Chrome Dev tool will open, wait a bit until it finishes loading
 - It will break at the first line of code, so once it's there, click continue
 - Then wait a bit (could be 20-30 seconds) for the code to run and the server to work properly
@@ -77,7 +98,7 @@ If you want to use a more "production-ready" database such as MongoDB, create th
 
 ### Debugging the client
 
-- Run both client and server normally (`npm run start-server` and `npm run start-ui`)
+- Run both client and server normally (`yarn start-server` and `yarn start-ui`)
 - From the browser window where the website is open, open the Chrome Dev tools
 - Go on the **Sources** tab, and on the left, find your sources under `webpack://` and then `.`.
 - You can then put breakpoints in there and debugging
@@ -89,6 +110,13 @@ If you want to use a more "production-ready" database such as MongoDB, create th
 - Switch to a different component library (https://react.semantic-ui.com/introduction for instance)
 
 ## Versions history
+
+### Version 2.0.0
+
+- Complete rewrite
+- TypeScript
+- Multi-repo
+- etc.
 
 ### Version 1.0.1
 
