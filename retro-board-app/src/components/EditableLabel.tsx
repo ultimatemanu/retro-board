@@ -6,6 +6,7 @@ interface EditableLabelProps extends CenteredProp {
   value: string;
   readOnly?: boolean;
   placeholder?: string;
+  label?: string;
   onChange: (value: string) => void;
 }
 
@@ -41,7 +42,7 @@ export default class EditableLabel extends Component<
   }
 
   renderViewMode() {
-    const { value, placeholder, readOnly } = this.props;
+    const { value, placeholder, readOnly, label } = this.props;
 
     if (readOnly) {
       return this.renderReadOnlyMode();
@@ -55,7 +56,7 @@ export default class EditableLabel extends Component<
           )
         }
       >
-        {value || placeholder}
+        <span aria-label={label}>{value || placeholder}</span>
         &nbsp;
         <EditIcon fontSize="inherit" />
       </ViewMode>
@@ -63,11 +64,12 @@ export default class EditableLabel extends Component<
   }
 
   renderEditMode() {
-    const { value, onChange } = this.props;
+    const { value, onChange, label } = this.props;
     return (
       <EditMode>
         <textarea
           ref={this.inputRef}
+          aria-label={`${label} input`}
           value={value}
           onBlur={() => {
             this.setState({ editMode: false });

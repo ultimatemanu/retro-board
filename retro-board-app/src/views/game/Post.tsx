@@ -30,28 +30,38 @@ const PostItem: SFC<PostItemProps> = ({
   onEdit,
   onDelete,
 }) => {
-  const translations = useTranslations();
   const { state } = useGlobalState();
   const user = state.username;
-  const hasVoted = includes(post.likes, user) || includes(post.dislikes, user);
+  const hasVotedOrAuthor =
+    includes(post.likes, user) ||
+    includes(post.dislikes, user) ||
+    user === post.user;
   return (
     <PostWrapper color={color}>
       <LabelWrapper>
         <Typography variant="body1">
-          <EditableLabel value={post.content} onChange={onEdit} />
+          <EditableLabel
+            value={post.content}
+            onChange={onEdit}
+            label="Post content"
+          />
         </Typography>
       </LabelWrapper>
       <Controls>
-        <Button onClick={onLike} disabled={hasVoted}>
+        <Button onClick={onLike} disabled={hasVotedOrAuthor} aria-label="Like">
           <ThumbUpOutlined style={{ color: Palette.positive }} />
           &nbsp;{post.likes.length}
         </Button>
-        <Button onClick={onDislike} disabled={hasVoted}>
+        <Button
+          onClick={onDislike}
+          disabled={hasVotedOrAuthor}
+          aria-label="Dislike"
+        >
           <ThumbDownOutlined style={{ color: Palette.negative }} />
           &nbsp;{post.dislikes.length}
         </Button>
         {user === post.user && (
-          <Button onClick={onDelete}>
+          <Button onClick={onDelete} aria-label="Delete">
             <DeleteForeverOutlined style={{ color: Palette.negative }} />
           </Button>
         )}

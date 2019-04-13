@@ -10,7 +10,7 @@ import {
   toggleSummaryMode,
 } from './actions';
 
-const initialState: State = {
+export const initialState: State = {
   panelOpen: false,
   username: null,
   players: [],
@@ -27,8 +27,15 @@ const Context = createContext({
   dispatch: (action: Action) => {},
 });
 
-export const Provider: SFC = props => {
-  const [state, dispatch] = useReducer(reducer, initialState);
+interface ProviderProps {
+  initialState?: State;
+}
+
+export const Provider: SFC<ProviderProps> = props => {
+  const [state, dispatch] = useReducer(
+    reducer,
+    props.initialState ? props.initialState : initialState
+  );
   const value = { state, dispatch };
   return <Context.Provider value={value}>{props.children}</Context.Provider>;
 };

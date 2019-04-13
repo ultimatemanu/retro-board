@@ -7,7 +7,7 @@
     "retro-board-*"
   ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "cd retro-board-app && yarn test",
     "clean": "del ./retro-board-*/yarn.lock && del ./yarn.lock && del ./retro-board-*/node_modules && del ./node_modules",
     "start-ui": "cd retro-board-app && yarn start",
     "start-server": "yarn build-common && cd retro-board-server && yarn start && cd ..",
