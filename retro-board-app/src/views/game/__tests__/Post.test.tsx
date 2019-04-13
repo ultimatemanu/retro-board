@@ -94,4 +94,55 @@ describe('Post', () => {
     expect(likeHandler).not.toHaveBeenCalled();
     expect(dislikeHandler).not.toHaveBeenCalled();
   });
+
+  it('Should let the user edit the post if the author is the user', () => {
+    const customPost: Post = {
+      ...post,
+      user: 'John Doe',
+    };
+    const editHandler = jest.fn();
+
+    const { getByLabelText } = render(
+      <PostItem
+        post={customPost}
+        onDelete={noop}
+        onDislike={noop}
+        onEdit={editHandler}
+        onLike={noop}
+        color="red"
+      />
+    );
+    const editableLabel = getByLabelText(/post content/i);
+    editableLabel.click();
+    expect(editHandler).not.toHaveBeenCalled();
+    const editableInput = getByLabelText(/post content input/i);
+    fireEvent.change(editableInput, { target: { value: 'Bar' } });
+    fireEvent.keyPress(editableInput, { keyCode: 13 });
+    expect(editHandler).toHaveBeenCalled();
+    expect(editHandler).toHaveBeenCalledWith('Bar');
+  });
+
+  it('Should NOT let the user edit the post if the author is NOT the user', () => {
+    const customPost: Post = {
+      ...post,
+      user: 'Somebody else',
+    };
+    const editHandler = jest.fn();
+
+    const { getByLabelText, queryByLabelText } = render(
+      <PostItem
+        post={customPost}
+        onDelete={noop}
+        onDislike={noop}
+        onEdit={editHandler}
+        onLike={noop}
+        color="red"
+      />
+    );
+    const editableLabel = getByLabelText(/post content/i);
+    editableLabel.click();
+    const editableInput = queryByLabelText(/post content input/i);
+    expect(editableInput).toBeNull();
+    expect(editHandler).not.toHaveBeenCalled();
+  });
 });

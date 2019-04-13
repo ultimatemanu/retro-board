@@ -36,9 +36,9 @@ export default class EditableLabel extends Component<
   }
 
   renderReadOnlyMode() {
-    const { value, placeholder } = this.props;
+    const { value, placeholder, label } = this.props;
 
-    return <ViewMode>{value || placeholder}</ViewMode>;
+    return <ViewMode aria-label={label}>{value || placeholder}</ViewMode>;
   }
 
   renderViewMode() {

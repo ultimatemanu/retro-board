@@ -36,11 +36,13 @@ const PostItem: SFC<PostItemProps> = ({
     includes(post.likes, user) ||
     includes(post.dislikes, user) ||
     user === post.user;
+  const isAuthor = user === post.user;
   return (
     <PostWrapper color={color}>
       <LabelWrapper>
         <Typography variant="body1">
           <EditableLabel
+            readOnly={!isAuthor}
             value={post.content}
             onChange={onEdit}
             label="Post content"
@@ -60,7 +62,7 @@ const PostItem: SFC<PostItemProps> = ({
           <ThumbDownOutlined style={{ color: Palette.negative }} />
           &nbsp;{post.dislikes.length}
         </Button>
-        {user === post.user && (
+        {isAuthor && (
           <Button onClick={onDelete} aria-label="Delete">
             <DeleteForeverOutlined style={{ color: Palette.negative }} />
           </Button>
