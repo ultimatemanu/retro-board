@@ -7,8 +7,6 @@ import {
   CardContent,
   Grid,
 } from '@material-ui/core';
-import useTranslations from '../../translations';
-import useGlobalState from '../../state';
 import GameEngine from './GameEngine';
 import { ColumnContent } from './types';
 import { Palette } from '../../Theme';
@@ -27,7 +25,10 @@ const Section = ({ column }: SectionProps) => (
   <Grid container spacing={24}>
     <Grid item xs={12}>
       <Card>
-        <CardHeader title={column.label} />
+        <CardHeader
+          title={column.label}
+          style={{ backgroundColor: column.color }}
+        />
         <CardContent>
           {column.posts.map(post => (
             <PostLine post={post} key={post.id} />
@@ -60,10 +61,7 @@ const NegativeNumber = styled.span`
   color: ${Palette.negative};
 `;
 
-function SummaryMode({ service, columns }: SummaryModeProps) {
-  const translations = useTranslations();
-  const { state } = useGlobalState();
-
+const SummaryMode: React.SFC<SummaryModeProps> = ({ service, columns }) => {
   return (
     <div>
       {service && (
@@ -75,7 +73,7 @@ function SummaryMode({ service, columns }: SummaryModeProps) {
       )}
     </div>
   );
-}
+};
 
 const PostContainer = styled.div``;
 
