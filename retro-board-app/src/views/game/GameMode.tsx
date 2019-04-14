@@ -21,7 +21,7 @@ function GameMode({ service, columns }: GameModeProps) {
     <div>
       {service && (
         <>
-          <Typography variant="body1" align="center" gutterBottom>
+          <Typography variant="headline" align="center" gutterBottom paragraph>
             <EditableLabel
               placeholder={translations.SessionName.defaultSessionName}
               value={state.session.name}
@@ -53,8 +53,10 @@ function GameMode({ service, columns }: GameModeProps) {
 
 const Columns = styled.div`
   display: flex;
+  margin-top: 30px;
 
   @media screen and (max-width: 900px) {
+    margin-top: 10px;
     flex-direction: column;
   }
 `;

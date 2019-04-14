@@ -7,11 +7,13 @@ import {
   ThumbDownOutlined,
   DeleteForeverOutlined,
 } from '@material-ui/icons';
-import useTranslations from '../../translations';
 import useGlobalState from '../../state';
 import EditableLabel from '../../components/EditableLabel';
 import { Palette } from '../../Theme';
 import { Post } from 'retro-board-common';
+import Card from '@material-ui/core/Card';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
 
 interface PostItemProps {
   post: Post;
@@ -37,10 +39,9 @@ const PostItem: SFC<PostItemProps> = ({
     includes(post.dislikes, user) ||
     user === post.user;
   const isAuthor = user === post.user;
-  console.log('Post: ', post);
   return (
-    <PostWrapper color={color}>
-      <LabelWrapper>
+    <PostCard>
+      <CardContent>
         <Typography variant="body1">
           <EditableLabel
             readOnly={!isAuthor}
@@ -49,8 +50,8 @@ const PostItem: SFC<PostItemProps> = ({
             label="Post content"
           />
         </Typography>
-      </LabelWrapper>
-      <Controls>
+      </CardContent>
+      <CardActions style={{ backgroundColor: color }}>
         <Button onClick={onLike} disabled={hasVotedOrAuthor} aria-label="Like">
           <ThumbUpOutlined style={{ color: Palette.positive }} />
           &nbsp;{post.likes.length}
@@ -68,23 +69,14 @@ const PostItem: SFC<PostItemProps> = ({
             <DeleteForeverOutlined style={{ color: Palette.negative }} />
           </Button>
         )}
-      </Controls>
-    </PostWrapper>
+      </CardActions>
+    </PostCard>
   );
 };
 
-const PostWrapper = styled.div<{ color: string }>`
-  background-color: ${props => props.color};
-  margin: 5px;
-  padding: 5px;
-  border-radius: 1px;
-  box-shadow: 2px 2px 5px 0px rgba(173, 173, 173, 1);
-`;
-
-const LabelWrapper = styled.div`
+const PostCard = styled(Card)`
   margin: 10px;
+  margin-bottom: 20px;
 `;
-
-const Controls = styled.div``;
 
 export default PostItem;
