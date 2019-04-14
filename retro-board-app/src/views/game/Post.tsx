@@ -37,6 +37,7 @@ const PostItem: SFC<PostItemProps> = ({
     includes(post.dislikes, user) ||
     user === post.user;
   const isAuthor = user === post.user;
+  console.log('Post: ', post);
   return (
     <PostWrapper color={color}>
       <LabelWrapper>

@@ -6,7 +6,7 @@ import { find } from 'lodash';
 import chalk from 'chalk';
 import moment from 'moment';
 import db from './db';
-import { Actions, Session } from 'retro-board-common';
+import { Actions, Session, Post } from 'retro-board-common';
 
 const {
   RECEIVE_POST,
@@ -50,6 +50,22 @@ interface ExtendedSocket extends socketIo.Socket {
 
 interface Users {
   [socketId: string]: string | null;
+}
+
+interface UserData {
+  user: string;
+}
+
+interface NameData extends UserData {
+  name: string;
+}
+
+interface PostUpdate extends UserData {
+  post: Post;
+}
+
+interface LikeUpdate extends PostUpdate {
+  like: boolean;
 }
 
 db().then(store => {
@@ -100,13 +116,21 @@ db().then(store => {
     sendClientList(sessionId, socket);
   };
 
-  const receivePost = (session: Session, data: any, socket: ExtendedSocket) => {
+  const receivePost = (
+    session: Session,
+    data: Post,
+    socket: ExtendedSocket
+  ) => {
     session.posts.push(data);
     persist(session);
     sendToAll(socket, session.id, RECEIVE_POST, data);
   };
 
-  const joinSession = (session: Session, data: any, socket: ExtendedSocket) => {
+  const joinSession = (
+    session: Session,
+    data: UserData,
+    socket: ExtendedSocket
+  ) => {
     socket.join(getRoom(session.id), () => {
       socket.sessionId = session.id;
       if (session.posts.length) {
@@ -122,7 +146,7 @@ db().then(store => {
 
   const renameSession = (
     session: Session,
-    data: any,
+    data: NameData,
     socket: ExtendedSocket
   ) => {
     session.name = data.name;
@@ -130,25 +154,27 @@ db().then(store => {
     sendToAll(socket, session.id, RECEIVE_SESSION_NAME, data.name);
   };
 
-  const leave = (session: Session, data: any, socket: ExtendedSocket) => {
+  const leave = (session: Session, _: void, socket: ExtendedSocket) => {
     socket.leave(getRoom(session.id), () => {
       sendClientList(session.id, socket);
     });
   };
 
-  const login = (session: Session, data: any, socket: ExtendedSocket) => {
-    recordUser(session.id, data.name, socket);
+  const login = (session: Session, data: UserData, socket: ExtendedSocket) => {
+    console.log('login: ', data);
+    recordUser(session.id, data.user, socket);
   };
 
-  const deletePost = (session: Session, data: any, socket: ExtendedSocket) => {
+  const deletePost = (session: Session, data: Post, socket: ExtendedSocket) => {
     session.posts = session.posts.filter(p => p.id !== data.id);
     persist(session);
     sendToAll(socket, session.id, RECEIVE_DELETE_POST, data);
   };
 
-  const like = (session: Session, data: any, socket: ExtendedSocket) => {
+  const like = (session: Session, data: LikeUpdate, socket: ExtendedSocket) => {
     const post = find(session.posts, p => p.id === data.post.id);
     if (post) {
+      console.log('Like: ', data);
       const array = data.like ? post.likes : post.dislikes;
 
       if (array.indexOf(data.user) === -1) {
@@ -159,10 +185,10 @@ db().then(store => {
     }
   };
 
-  const edit = (session: Session, data: any, socket: ExtendedSocket) => {
+  const edit = (session: Session, data: PostUpdate, socket: ExtendedSocket) => {
     const post = find(session.posts, p => p.id === data.post.id);
     if (post) {
-      post.content = data.content;
+      post.content = data.post.content;
       persist(session);
       sendToAll(socket, session.id, RECEIVE_EDIT_POST, data);
     }
@@ -174,7 +200,7 @@ db().then(store => {
     '/favicon.ico',
     express.static(path.resolve(staticFolder, 'favicon.ico'))
   );
-  app.get('/*', (req, res) => res.sendFile(htmlFile));
+  app.get('/*', (_, res) => res.sendFile(htmlFile));
 
   io.on('connection', (socket: ExtendedSocket) => {
     const ip =

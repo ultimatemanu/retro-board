@@ -25,6 +25,7 @@ It features the following technologies:
 - [Multilingual](https://stackoverflow.com/questions/33413880/react-redux-and-multilingual-internationalization-apps-architecture) / Internationalization
 - [MongoDB](https://www.mongodb.org/) (optional), defaults to [NeDB](https://github.com/louischatriot/nedb) (in-process)
 - [Jest](https://facebook.github.io/jest) for Unit Testing
+- [React Testing Library](https://testing-library.com/docs/react-testing-library/intro), for Integration Tests
 - [Yarn](https://yarnpkg.com/en/), replacing NPM
 
 Previous versions, up to v1.0.1 featured the following libraries:
