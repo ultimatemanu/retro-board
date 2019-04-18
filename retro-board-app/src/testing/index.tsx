@@ -1,11 +1,7 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { render, RenderOptions, RenderResult } from 'react-testing-library';
 import { Provider, initialState } from '../state/context';
-import useGlobalState from '../state';
 import { State } from '../state/types';
-// import { ThemeProvider } from 'my-ui-lib'
-// import { TranslationProvider } from 'my-i18n-lib'
-// import defaultStrings from 'i18n/en-x-default'
 
 const testingInitialState: State = {
   ...initialState,
