@@ -1,7 +1,6 @@
-import React, { SFC, useContext, useState, useCallback } from 'react';
+import React, { SFC, useState, useCallback } from 'react';
 import styled from 'styled-components';
 import { Input, InputAdornment } from '@material-ui/core';
-import useTranslations from '../../translations';
 import PostItem from './Post';
 import { Post } from 'retro-board-common';
 
@@ -82,10 +81,10 @@ const Column: SFC<ColumnProps> = ({
 const ColumnWrapper = styled.div`
   flex: 1;
   margin-bottom: 10px;
+  padding: 0 5px;
 `;
 
 const Add = styled.div`
-  width: calc(100% - 10px);
   margin-bottom: 20px;
 
   > div {

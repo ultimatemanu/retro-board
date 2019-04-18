@@ -75,7 +75,7 @@ const PostItem: SFC<PostItemProps> = ({
 };
 
 const PostCard = styled(Card)`
-  margin: 10px;
+  margin: 10px 5px;
   margin-bottom: 20px;
 `;
 

@@ -1,15 +1,15 @@
-import React, { useContext, useCallback } from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { Route } from 'react-router-dom';
 import { Drawer } from '@material-ui/core';
-import useTranslations, { LanguageContext } from '../translations';
+import { LanguageContext } from '../translations';
 import useGlobalState from '../state';
 import LanguagePicker from '../components/LanguagePicker';
 import PlayerList from './panel/PlayerList';
 import SummaryModeSwitch from './panel/SummaryModeSwitch';
+import ForkMe from './panel/github.png';
 
 function Panel() {
-  const translations = useTranslations();
   const languageContext = useContext(LanguageContext);
   const { state, togglePanel } = useGlobalState();
 
@@ -25,6 +25,10 @@ function Panel() {
       <Content>
         <Route path="/game/:gameId" component={PlayerList} />
       </Content>
+
+      <a target="_blank" href="https://github.com/antoinejaussoin/retro-board">
+        <ForkMeImage src={ForkMe} />
+      </a>
     </Drawer>
   );
 }
@@ -35,6 +39,15 @@ const Content = styled.div`
   @media screen and (max-width: 600px) {
     padding: 3px;
   }
+`;
+
+const ForkMeImage = styled.img`
+  object-fit: contain;
+  width: 50px;
+  margin: 10px;
+  position: fixed;
+  bottom: 0;
+  left: 0;
 `;
 
 export default Panel;

@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect, useCallback, useState, useRef } from 'react';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { trackPageView } from './track';
 import styled from 'styled-components';
@@ -10,6 +10,8 @@ import {
   Typography,
 } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
 import { Route } from 'react-router-dom';
 import Home from './views/Home';
 import Game from './views/Game';
@@ -29,7 +31,15 @@ interface AppProps extends RouteComponentProps {}
 function App({ history }: AppProps) {
   useLoginFromLocalStorage();
   const { state, togglePanel, logout } = useGlobalState();
+  const [open, setOpen] = useState(false);
   const goToHome = useCallback(() => history.push('/'), [history]);
+  const closeMenu = useCallback(() => setOpen(false), []);
+  const openMenu = useCallback(() => setOpen(true), []);
+  const menuAnchor = useRef(null);
+  const handleLogout = useCallback(() => {
+    closeMenu();
+    logout();
+  }, [logout]);
   useEffect(() => {
     const unregister = history.listen(location => {
       trackPageView(location.pathname);
@@ -45,11 +55,28 @@ function App({ history }: AppProps) {
           <IconButton color="inherit" aria-label="Menu" onClick={togglePanel}>
             <MenuIcon />
           </IconButton>
-          <Title variant="h6" color="inherit" onClick={goToHome}>
+          <MainTitle variant="h6" color="inherit" onClick={goToHome}>
             Retrospected
-          </Title>
+          </MainTitle>
           <Route exact path="/game/:gameId" render={() => <Invite />} />
-          <Button color="inherit">{state.username || '--'}</Button>
+          <Button color="inherit" buttonRef={menuAnchor} onClick={openMenu}>
+            {state.username || '--'}
+          </Button>
+          <Menu
+            anchorEl={menuAnchor.current}
+            anchorOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+            open={open}
+            onClose={closeMenu}
+          >
+            <MenuItem onClick={handleLogout}>Logout</MenuItem>
+          </Menu>
         </Toolbar>
       </AppBar>
       <Page>
@@ -61,6 +88,10 @@ function App({ history }: AppProps) {
     </div>
   );
 }
+
+const MainTitle = styled(Title)`
+  cursor: pointer;
+`;
 
 const Page = styled.main`
   margin: 50px;

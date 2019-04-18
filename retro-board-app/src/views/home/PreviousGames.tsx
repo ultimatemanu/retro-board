@@ -1,4 +1,5 @@
 import React, { SFC, useCallback } from 'react';
+import styled from 'styled-components';
 import { withRouter, RouteComponentProps } from 'react-router';
 import md5 from 'md5';
 import usePreviousSessions from '../../effects/usePreviousSessions';
@@ -24,7 +25,10 @@ const PreviousGames: SFC<PreviousGamesProps> = ({ history }) => {
   return (
     <List component="section">
       {previousSessions.map(session => (
-        <ListItem key={session.id} onClick={() => redirectToGame(session.id)}>
+        <ClickableListItem
+          key={session.id}
+          onClick={() => redirectToGame(session.id)}
+        >
           <ListItemAvatar>
             <Avatar
               alt={session.name || 'My Retrospective'}
@@ -32,10 +36,14 @@ const PreviousGames: SFC<PreviousGamesProps> = ({ history }) => {
             />
           </ListItemAvatar>
           <ListItemText primary={session.name || 'My Retrospective'} />
-        </ListItem>
+        </ClickableListItem>
       ))}
     </List>
   );
 };
+
+const ClickableListItem = styled(ListItem)`
+  cursor: pointer;
+`;
 
 export default withRouter(PreviousGames);
