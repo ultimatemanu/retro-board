@@ -40,7 +40,7 @@
   },
   "homepage": "http://www.retrospected.com",
   "dependencies": {
-    "@types/node": "^10.12.3",
+    "@types/node": "^11.13.5",
     "del-cli": "^1.1.0",
     "typescript": "^3.1.6"
   }
