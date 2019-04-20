@@ -211,7 +211,12 @@ db().then(store => {
       gr(ip)
     );
 
-    const actions = [
+    interface Action {
+      type: string;
+      handler: (session: Session, data: any, socket: ExtendedSocket) => void;
+    }
+
+    const actions: Action[] = [
       { type: ADD_POST_SUCCESS, handler: receivePost },
       { type: JOIN_SESSION, handler: joinSession },
       { type: RENAME_SESSION, handler: renameSession },
