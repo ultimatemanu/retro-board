@@ -9,6 +9,6 @@
   "dependencies": {
     "@types/node": "^11.13.6",
     "cross-env": "5.2.0",
-    "typescript": "3.2.1"
+    "typescript": "3.3.3333"
   }
 }
