@@ -1,19 +1,4 @@
-import React, { useContext } from 'react';
 import useGlobalState from '../state';
-
-// {
-//   "Hello": [
-//     {
-//       "id": "3wi6W9hp8",
-//       "lastJoin": 1551390530271
-//     },
-//     {
-//       "id": "scRJu6qz5",
-//       "lastJoin": 1551600101140,
-//       "name": null
-//     }
-//   ]
-// }
 
 interface SessionStore {
   [username: string]: Session[];

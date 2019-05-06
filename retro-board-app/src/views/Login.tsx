@@ -11,7 +11,7 @@ import {
 import useTranslations from '../translations';
 import useGlobalState from '../state';
 
-const Login: SFC = ({}) => {
+const Login: SFC = () => {
   const translations = useTranslations();
   const { login } = useGlobalState();
   const [username, setUsername] = useState('');

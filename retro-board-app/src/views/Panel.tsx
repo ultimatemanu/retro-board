@@ -26,7 +26,11 @@ function Panel() {
         <Route path="/game/:gameId" component={PlayerList} />
       </Content>
 
-      <a target="_blank" href="https://github.com/antoinejaussoin/retro-board">
+      <a
+        target="_blank"
+        rel="noopener noreferrer"
+        href="https://github.com/antoinejaussoin/retro-board"
+      >
         <ForkMeImage src={ForkMe} />
       </a>
     </Drawer>

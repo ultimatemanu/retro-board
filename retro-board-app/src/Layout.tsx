@@ -39,7 +39,7 @@ function App({ history }: AppProps) {
   const handleLogout = useCallback(() => {
     closeMenu();
     logout();
-  }, [logout]);
+  }, [logout, closeMenu]);
   useEffect(() => {
     const unregister = history.listen(location => {
       trackPageView(location.pathname);
