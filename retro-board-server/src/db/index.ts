@@ -9,9 +9,9 @@ export default (): Promise<Store> => {
   const computer = emoji.get('computer');
   const y = chalk.yellow.bind(chalk);
   if (config.DB_Use_Mongo) {
-    console.log(y(`${computer}   Using ${chalk.red('MongoDB')} database`));
+    console.log(y`${computer}   Using ${chalk.red('MongoDB')} database`);
     return mongo();
   }
-  console.log(y(`${computer}   Using ${chalk.red('NeDB')} database`));
+  console.log(y`${computer}   Using ${chalk.red('NeDB')} database`);
   return nedb();
 };

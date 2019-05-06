@@ -1,4 +1,10 @@
-import React, { useContext, useReducer, createContext, SFC } from 'react';
+import React, {
+  useContext,
+  useReducer,
+  createContext,
+  useMemo,
+  SFC,
+} from 'react';
 import { State, Action } from './types';
 import reducer from './reducer';
 import {
@@ -36,19 +42,23 @@ export const Provider: SFC<ProviderProps> = props => {
     reducer,
     props.initialState ? props.initialState : initialState
   );
-  const value = { state, dispatch };
+  const value = useMemo(() => ({ state, dispatch }), [state, dispatch]);
   return <Context.Provider value={value}>{props.children}</Context.Provider>;
 };
 
 export function useGlobalState() {
   const { state, dispatch } = useContext(Context);
-  return {
-    state,
-    togglePanel: togglePanel(dispatch),
-    login: login(dispatch),
-    logout: logout(dispatch),
-    setPlayers: setPlayers(dispatch),
-    setSession: setSession(dispatch),
-    toggleSummaryMode: toggleSummaryMode(dispatch),
-  };
+  const globalState = useMemo(() => {
+    return {
+      state,
+      togglePanel: togglePanel(dispatch),
+      login: login(dispatch),
+      logout: logout(dispatch),
+      setPlayers: setPlayers(dispatch),
+      setSession: setSession(dispatch),
+      toggleSummaryMode: toggleSummaryMode(dispatch),
+    };
+  }, [state, dispatch]);
+
+  return globalState;
 }
