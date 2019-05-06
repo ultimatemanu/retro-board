@@ -42,7 +42,7 @@ const b = chalk.blue.bind(chalk);
 const gr = chalk.grey.bind(chalk);
 const r = chalk.red.bind(chalk);
 const y = chalk.yellow.bind(chalk);
-const s = (str: string) => b(str.replace('retrospected/', ''));
+const s = (str: string) => b`${str.replace('retrospected/', '')}`;
 
 interface ExtendedSocket extends socketIo.Socket {
   sessionId: string;
@@ -70,7 +70,7 @@ interface LikeUpdate extends PostUpdate {
 
 db().then(store => {
   const users: Users = {};
-  const d = () => y(`[${moment().format('HH:mm:ss')}]`);
+  const d = () => y`[${moment().format('HH:mm:ss')}]`;
 
   const getRoom = (sessionId: string) => `board-${sessionId}`;
 
@@ -80,12 +80,16 @@ db().then(store => {
     action: string,
     data: any
   ) => {
-    console.log(`${d()}${g(' ==> ')} ${s(action)} ${gr(JSON.stringify(data))}`);
+    console.log(
+      `${d()}${g` ==> `} ${s(action)} ${gr`${JSON.stringify(data)}`}`
+    );
     socket.broadcast.to(getRoom(sessionId)).emit(action, data);
   };
 
   const sendToSelf = (socket: ExtendedSocket, action: string, data: any) => {
-    console.log(`${d()}${g(' --> ')} ${s(action)} ${gr(JSON.stringify(data))}`);
+    console.log(
+      `${d()}${g` ==> `} ${s(action)} ${gr`${JSON.stringify(data)}`}`
+    );
     socket.emit(action, data);
   };
 
@@ -206,8 +210,8 @@ db().then(store => {
     const ip =
       socket.handshake.headers['x-forwarded-for'] || socket.handshake.address;
     console.log(
-      d() + b(' Connection: ') + r('New user connected'),
-      gr(socket.id),
+      d() + b` Connection: ` + r`New user connected`,
+      gr`${socket.id}`,
       gr(ip)
     );
 
@@ -230,8 +234,8 @@ db().then(store => {
     actions.forEach(action => {
       socket.on(action.type, data => {
         console.log(
-          d() + r(' <--  ') + s(action.type),
-          gr(JSON.stringify(data))
+          d() + r` <--  ` + s(action.type),
+          gr`${JSON.stringify(data)}`
         );
         const sid =
           action.type === LEAVE_SESSION ? socket.sessionId : data.sessionId;
@@ -246,8 +250,8 @@ db().then(store => {
     socket.on('disconnect', () => {
       if (socket.sessionId) {
         console.log(
-          d() + b(' Disconnection: ') + r('User left'),
-          gr(socket.id),
+          d() + b` Disconnection: ` + r`User left`,
+          gr`${socket.id}`,
           gr(ip)
         );
         sendClientList(socket.sessionId, socket);
@@ -258,6 +262,6 @@ db().then(store => {
   httpServer.listen(port);
   const env = process.env.NODE_ENV || 'dev';
   console.log(
-    `Server started on port ${r(port.toString())}, environement: ${b(env)}`
+    `Server started on port ${r`${port.toString()}`}, environement: ${b`${env}`}`
   );
 });
