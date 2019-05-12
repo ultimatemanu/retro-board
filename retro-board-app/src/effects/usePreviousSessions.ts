@@ -30,7 +30,6 @@ function getStore(): SessionStore {
 }
 
 function addToPreviousSessions(id: string, name: string, username: string) {
-  console.log('ATPS: ', id, name);
   const store = getStore();
   const sessions = store[username] || [];
   const currentIndex = sessions.findIndex(session => session.id === id);

@@ -24,7 +24,7 @@ describe('EditableLabel', () => {
     display.click();
     const input = getByLabelText(/input/);
     if (!input) {
-      throw 'It should display a display text';
+      throw new Error('It should display a display text');
     }
     fireEvent.change(input, { target: { value: 'Bar' } });
     fireEvent.keyPress(input, { keyCode: 13 });

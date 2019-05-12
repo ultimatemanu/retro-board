@@ -7,13 +7,11 @@ import {
   CardContent,
   Grid,
 } from '@material-ui/core';
-import GameEngine from './GameEngine';
 import { ColumnContent } from './types';
 import { Palette } from '../../Theme';
 import { Post } from 'retro-board-common';
 
 interface SummaryModeProps {
-  service: GameEngine;
   columns: ColumnContent[];
 }
 
@@ -61,16 +59,14 @@ const NegativeNumber = styled.span`
   color: ${Palette.negative};
 `;
 
-const SummaryMode: React.SFC<SummaryModeProps> = ({ service, columns }) => {
+const SummaryMode: React.SFC<SummaryModeProps> = ({ columns }) => {
   return (
     <div>
-      {service && (
-        <div>
-          {columns.map(column => (
-            <Section key={column.type} column={column} />
-          ))}
-        </div>
-      )}
+      <div>
+        {columns.map(column => (
+          <Section key={column.type} column={column} />
+        ))}
+      </div>
     </div>
   );
 };

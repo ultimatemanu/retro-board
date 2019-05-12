@@ -21,8 +21,8 @@ function PlayerList() {
     <>
       <Typography variant="caption">{translations.Clients.header}</Typography>
       <List component="section">
-        {state.players.map(player => (
-          <ListItem key={player}>
+        {state.players.map((player, index) => (
+          <ListItem key={index}>
             <ListItemAvatar>
               <Avatar alt={player} src={getGravatar(player)} />
             </ListItemAvatar>

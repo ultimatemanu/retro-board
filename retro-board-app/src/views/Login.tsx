@@ -3,7 +3,6 @@ import {
   Dialog,
   DialogActions,
   DialogTitle,
-  DialogContentText,
   Button,
   DialogContent,
   Input,
@@ -33,14 +32,12 @@ const Login: SFC = () => {
     >
       <DialogTitle id="responsive-dialog-title">Login</DialogTitle>
       <DialogContent>
-        <DialogContentText>
-          <Input
-            value={username}
-            onChange={handleUsernameChange}
-            title={translations.Login.buttonLabel}
-            placeholder={translations.Login.namePlaceholder}
-          />
-        </DialogContentText>
+        <Input
+          value={username}
+          onChange={handleUsernameChange}
+          title={translations.Login.buttonLabel}
+          placeholder={translations.Login.namePlaceholder}
+        />
       </DialogContent>
       <DialogActions>
         <Button onClick={loginHandler} color="primary" autoFocus>

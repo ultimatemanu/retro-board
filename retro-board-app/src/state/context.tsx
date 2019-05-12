@@ -12,8 +12,13 @@ import {
   login,
   logout,
   setPlayers,
-  setSession,
+  receivePost,
+  deletePost,
+  updatePost,
+  receiveBoard,
   toggleSummaryMode,
+  renameSession,
+  resetSession,
 } from './actions';
 
 export const initialState: State = {
@@ -48,17 +53,27 @@ export const Provider: SFC<ProviderProps> = props => {
 
 export function useGlobalState() {
   const { state, dispatch } = useContext(Context);
-  const globalState = useMemo(() => {
+  const actions = useMemo(() => {
     return {
-      state,
       togglePanel: togglePanel(dispatch),
       login: login(dispatch),
       logout: logout(dispatch),
       setPlayers: setPlayers(dispatch),
-      setSession: setSession(dispatch),
+      receivePost: receivePost(dispatch),
+      deletePost: deletePost(dispatch),
+      updatePost: updatePost(dispatch),
+      receiveBoard: receiveBoard(dispatch),
       toggleSummaryMode: toggleSummaryMode(dispatch),
+      renameSession: renameSession(dispatch),
+      resetSession: resetSession(dispatch),
     };
-  }, [state, dispatch]);
+  }, [dispatch]);
+  const globalState = useMemo(() => {
+    return {
+      state,
+      ...actions,
+    };
+  }, [state, actions]);
 
   return globalState;
 }
