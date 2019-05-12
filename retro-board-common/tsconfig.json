@@ -17,9 +17,6 @@
     "composite": true,
     "rootDir": "src",
     "baseUrl": ".",
-    "paths": {
-      "retro-board-*": ["../retro-board-*/src"]
-    },
     "types": []
   },
   "include": ["src"]
