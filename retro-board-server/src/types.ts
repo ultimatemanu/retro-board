@@ -6,6 +6,6 @@ export interface Store {
 export interface Configuration {
   GA_Tracking_ID: string;
   GA_Enabled: boolean;
-  DB_Use_Mongo: boolean;
+  DB_Type: 'postgres' | 'mongo' | 'nedb';
   DB_Mongo_URL: string;
 }

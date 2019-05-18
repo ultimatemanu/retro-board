@@ -1,4 +1,4 @@
 {
-  "DB_Use_Mongo": false,
+  "DB_Type": "nedb",
   "DB_Mongo_URL": "mongodb://localhost/retrospected"
 }
