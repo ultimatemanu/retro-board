@@ -19,9 +19,9 @@ const get = (connection: Connection, repository: Repository<Session>) => async (
           id: dbPost.id,
           content: dbPost.content,
           postType: dbPost.postType,
-          likes: (dbPost.likes || []).map(u => u.name),
-          dislikes: (dbPost.dislikes || []).map(u => u.name),
-          user: dbPost.user.name,
+          likes: dbPost.likes || [],
+          dislikes: dbPost.dislikes || [],
+          user: dbPost.user,
         };
       }),
     };

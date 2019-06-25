@@ -181,7 +181,7 @@ db().then(store => {
       console.log('Like: ', data);
       const array = data.like ? post.likes : post.dislikes;
 
-      if (array.indexOf(data.user) === -1) {
+      if (find(array, { id: data.user.id }) === null) {
         array.push(data.user);
         persist(session);
         sendToAll(socket, session.id, RECEIVE_LIKE, post);

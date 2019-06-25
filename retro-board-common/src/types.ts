@@ -1,10 +1,10 @@
-export interface Session {
+export interface LegacySession {
   id: string;
   name: string;
   posts: Post[];
 }
 
-export interface Post {
+export interface LegacyPost {
   id: string;
   postType: PostType;
   content: string;
@@ -17,4 +17,24 @@ export enum PostType {
   Well = 'well',
   NotWell = 'notWell',
   Ideas = 'ideas',
+}
+
+export interface Session {
+  id: string;
+  name: string;
+  posts: Post[];
+}
+
+export interface Post {
+  id: string;
+  postType: PostType;
+  content: string;
+  user: User;
+  likes: User[];
+  dislikes: User[];
+}
+
+export interface User {
+  id: string;
+  name: string;
 }
