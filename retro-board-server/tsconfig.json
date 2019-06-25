@@ -20,8 +20,5 @@
     },
     "types": []
   },
-  "include": ["src"],
-  "references": [{
-    "path": "../retro-board-common/tsconfig.json"
-  }]
+  "include": ["src"]
 }

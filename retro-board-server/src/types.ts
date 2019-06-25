@@ -1,6 +1,6 @@
 export interface Store {
   get: (key: string) => Promise<any>;
-  set: (obj: any) => Promise<{}>;
+  set: (obj: any) => Promise<unknown>;
 }
 
 export interface Configuration {
