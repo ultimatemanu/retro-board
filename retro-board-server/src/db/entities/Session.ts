@@ -5,7 +5,7 @@ import Post from './Post';
 export default class Session {
   @PrimaryColumn({ primary: true, generated: false })
   public id: string;
-  @Column()
+  @Column({ nullable: true })
   public name: string;
   @OneToMany(() => Post, post => post.session, {
     eager: true,

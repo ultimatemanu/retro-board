@@ -16,6 +16,7 @@
     "build-server": "cd retro-board-server && yarn build && cd ..",
     "build": "yarn build-ui && yarn build-server",
     "start": "yarn start-server & yarn start-ui",
+    "init-db": "cd retro-board-server/src && ts-node init.ts",
     "migrate": "cd ./retro-board-server/src/migration && ts-node to-postgres.ts"
   },
   "repository": {
