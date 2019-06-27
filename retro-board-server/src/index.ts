@@ -6,7 +6,8 @@ import { find } from 'lodash';
 import chalk from 'chalk';
 import moment from 'moment';
 import db from './db';
-import { Actions, Session, Post } from 'retro-board-common';
+import { Actions, Session, Post, User } from 'retro-board-common';
+import config from './db/config';
 
 const {
   RECEIVE_POST,
@@ -29,7 +30,7 @@ const {
 const app = express();
 const httpServer = new http.Server(app);
 const io = socketIo(httpServer);
-const port = process.env.PORT || 8081;
+const port = config.PORT || 8081;
 const htmlFile =
   process.env.NODE_ENV === 'production'
     ? path.resolve(__dirname, '..', 'assets', 'index.html')
@@ -37,23 +38,18 @@ const htmlFile =
 const assetsFolder = path.resolve(__dirname, '..', 'assets');
 const staticFolder = path.resolve(__dirname, '..', 'static');
 
-const g = chalk.green.bind(chalk);
-const b = chalk.blue.bind(chalk);
-const gr = chalk.grey.bind(chalk);
-const r = chalk.red.bind(chalk);
-const y = chalk.yellow.bind(chalk);
-const s = (str: string) => b`${str.replace('retrospected/', '')}`;
+const s = (str: string) => chalk`{blue ${str.replace('retrospected/', '')}}`;
 
 interface ExtendedSocket extends socketIo.Socket {
   sessionId: string;
 }
 
 interface Users {
-  [socketId: string]: string | null;
+  [socketId: string]: User | null;
 }
 
 interface UserData {
-  user: string;
+  user: User;
 }
 
 interface NameData extends UserData {
@@ -70,7 +66,7 @@ interface LikeUpdate extends PostUpdate {
 
 db().then(store => {
   const users: Users = {};
-  const d = () => y`[${moment().format('HH:mm:ss')}]`;
+  const d = () => chalk`{yellow [${moment().format('HH:mm:ss')}]}`;
 
   const getRoom = (sessionId: string) => `board-${sessionId}`;
 
@@ -81,14 +77,18 @@ db().then(store => {
     data: any
   ) => {
     console.log(
-      `${d()}${g` ==> `} ${s(action)} ${gr`${JSON.stringify(data)}`}`
+      `${d()}${chalk`{green  ==> }`} ${s(
+        action
+      )} ${chalk`{grey ${JSON.stringify(data)}}`}`
     );
     socket.broadcast.to(getRoom(sessionId)).emit(action, data);
   };
 
   const sendToSelf = (socket: ExtendedSocket, action: string, data: any) => {
     console.log(
-      `${d()}${g` ==> `} ${s(action)} ${gr`${JSON.stringify(data)}`}`
+      `${d()}${chalk`{green  ==> }`} ${s(
+        action
+      )} ${chalk`{grey ${JSON.stringify(data)}}`}`
     );
     socket.emit(action, data);
   };
@@ -109,12 +109,12 @@ db().then(store => {
 
   const recordUser = (
     sessionId: string,
-    name: string,
+    user: User,
     socket: ExtendedSocket
   ) => {
     const socketId = socket.id;
-    if (!users[socketId] || users[socketId] !== name) {
-      users[socketId] = name || null;
+    if (!users[socketId] || users[socketId]!.id !== user.id) {
+      users[socketId] = user || null;
     }
 
     sendClientList(sessionId, socket);
@@ -181,7 +181,7 @@ db().then(store => {
       console.log('Like: ', data);
       const array = data.like ? post.likes : post.dislikes;
 
-      if (array.indexOf(data.user) === -1) {
+      if (!array.find(u => u.id === data.user.id)) {
         array.push(data.user);
         persist(session);
         sendToAll(socket, session.id, RECEIVE_LIKE, post);
@@ -210,9 +210,10 @@ db().then(store => {
     const ip =
       socket.handshake.headers['x-forwarded-for'] || socket.handshake.address;
     console.log(
-      d() + b` Connection: ` + r`New user connected`,
-      gr`${socket.id}`,
-      gr(ip)
+      d() +
+        chalk`{blue Connection: {red New user connected} {grey ${
+          socket.id
+        } ${ip}}}`
     );
 
     interface Action {
@@ -234,8 +235,8 @@ db().then(store => {
     actions.forEach(action => {
       socket.on(action.type, data => {
         console.log(
-          d() + r` <--  ` + s(action.type),
-          gr`${JSON.stringify(data)}`
+          d() + chalk`{red  <--  }` + s(action.type),
+          chalk`{grey ${JSON.stringify(data)}}`
         );
         const sid =
           action.type === LEAVE_SESSION ? socket.sessionId : data.sessionId;
@@ -250,9 +251,8 @@ db().then(store => {
     socket.on('disconnect', () => {
       if (socket.sessionId) {
         console.log(
-          d() + b` Disconnection: ` + r`User left`,
-          gr`${socket.id}`,
-          gr(ip)
+          d() + chalk`{blue Disconnection: }` + chalk`{red User left}`,
+          chalk`{grey ${socket.id} ${ip}}`
         );
         sendClientList(socket.sessionId, socket);
       }
@@ -262,6 +262,6 @@ db().then(store => {
   httpServer.listen(port);
   const env = process.env.NODE_ENV || 'dev';
   console.log(
-    `Server started on port ${r`${port.toString()}`}, environement: ${b`${env}`}`
+    `Server started on port ${chalk`{red ${port.toString()}}`}, environement: ${chalk`{blue ${env}}`}`
   );
 });

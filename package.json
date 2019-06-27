@@ -10,12 +10,13 @@
     "test": "cd retro-board-app && yarn test",
     "clean": "del ./retro-board-*/yarn.lock && del ./yarn.lock && del ./retro-board-*/node_modules && del ./node_modules",
     "start-ui": "cd retro-board-app && yarn start",
-    "start-server": "yarn build-common && cd retro-board-server && yarn start && cd ..",
-    "build-common": "cd retro-board-common && yarn build && cd ..",
+    "start-server": "cd retro-board-server && yarn start && cd ..",
+    "start-server-production": "cd ./retro-board-server && ts-node -T ./src/index.ts",
     "build-ui": "cd retro-board-app && yarn build && cd ..",
     "build-server": "cd retro-board-server && yarn build && cd ..",
-    "build": "yarn build-common && yarn build-ui && yarn build-server",
-    "start": "yarn start-server & yarn start-ui"
+    "build": "yarn build-ui && yarn build-server",
+    "start": "yarn start-server & yarn start-ui",
+    "migrate": "cd ./retro-board-server/src/migration && ts-node to-postgres.ts"
   },
   "repository": {
     "type": "git",
@@ -40,8 +41,8 @@
   },
   "homepage": "http://www.retrospected.com",
   "dependencies": {
-    "@types/node": "^11.13.6",
-    "del-cli": "^1.1.0",
-    "typescript": "3.3.3333"
+    "@types/node": "^12.0.10",
+    "del-cli": "^2.0.0",
+    "typescript": "3.5.2"
   }
 }

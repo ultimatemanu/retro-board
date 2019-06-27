@@ -23,11 +23,20 @@ export const togglePanel = (dispatch: Dispatch) => () => {
   dispatch(createAction(TOGGLE_PANEL));
 };
 
-export const login = (dispatch: Dispatch) => (username: string) => {
-  dispatch(createAction(LOGIN, username));
+export const login = (dispatch: Dispatch) => (username: string, id: string) => {
+  localStorage.setItem('user_name', username);
+  localStorage.setItem('user_id', id);
+  dispatch(
+    createAction(LOGIN, {
+      id,
+      name: username,
+    })
+  );
 };
 
 export const logout = (dispatch: Dispatch) => () => {
+  localStorage.removeItem('user_name');
+  localStorage.removeItem('user_id');
   dispatch(createAction(LOGOUT));
 };
 

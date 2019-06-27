@@ -1,4 +1,5 @@
 import useGlobalState from '../state';
+import { User } from 'retro-board-common';
 
 interface SessionStore {
   [username: string]: Session[];
@@ -29,9 +30,9 @@ function getStore(): SessionStore {
   return {};
 }
 
-function addToPreviousSessions(id: string, name: string, username: string) {
+function addToPreviousSessions(id: string, name: string, username: User) {
   const store = getStore();
-  const sessions = store[username] || [];
+  const sessions = store[username.id] || [];
   const currentIndex = sessions.findIndex(session => session.id === id);
   const newSession: Session = {
     id,
@@ -46,7 +47,7 @@ function addToPreviousSessions(id: string, name: string, username: string) {
   }
   const newStore = {
     ...store,
-    [username]: sessions,
+    [username.id]: sessions,
   };
   localStorage.setItem('sessions', JSON.stringify(newStore));
 }
@@ -54,6 +55,10 @@ function addToPreviousSessions(id: string, name: string, username: string) {
 export default () => {
   const { state } = useGlobalState();
 
-  const previousSessions = getPreviousSessions(state.username);
-  return { previousSessions, addToPreviousSessions };
+  if (state.username) {
+    const previousSessions = getPreviousSessions(state.username.id);
+    return { previousSessions, addToPreviousSessions };
+  }
+
+  return { previousSessions: [], addToPreviousSessions };
 };

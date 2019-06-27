@@ -24,9 +24,9 @@ function PlayerList() {
         {state.players.map((player, index) => (
           <ListItem key={index}>
             <ListItemAvatar>
-              <Avatar alt={player} src={getGravatar(player)} />
+              <Avatar alt={player.name} src={getGravatar(player.id)} />
             </ListItemAvatar>
-            <ListItemText primary={player} />
+            <ListItemText primary={player.name} />
           </ListItem>
         ))}
       </List>

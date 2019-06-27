@@ -1,4 +1,5 @@
 import React, { SFC, useCallback, useState } from 'react';
+import { v4 } from 'uuid';
 import {
   Dialog,
   DialogActions,
@@ -15,8 +16,8 @@ const Login: SFC = () => {
   const { login } = useGlobalState();
   const [username, setUsername] = useState('');
   const loginHandler = useCallback(() => {
-    login(username);
-    localStorage.setItem('username', username);
+    const id = v4();
+    login(username, id);
   }, [login, username]);
   const handleUsernameChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => setUsername(e.target.value),

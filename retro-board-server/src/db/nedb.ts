@@ -1,6 +1,7 @@
 import Datastore from 'nedb';
 import path from 'path';
 import { Session } from 'retro-board-common';
+import { Store } from '../types';
 
 const dbFile = path.resolve(__dirname, '..', 'persist', 'db');
 
@@ -34,7 +35,7 @@ const set = (store: Datastore) => (session: Session) =>
 
 export default function db() {
   const store = new Datastore({ filename: dbFile, autoload: true });
-  return Promise.resolve({
+  return Promise.resolve<Store>({
     get: get(store),
     set: set(store),
   });

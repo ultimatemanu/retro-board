@@ -5,7 +5,7 @@ import { State } from '../state/types';
 
 const testingInitialState: State = {
   ...initialState,
-  username: 'John Doe',
+  username: { name: 'John Doe', id: '123' },
 };
 
 const AllTheProviders: React.SFC = ({ children }) => {

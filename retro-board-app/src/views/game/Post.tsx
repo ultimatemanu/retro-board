@@ -1,5 +1,5 @@
 import React, { SFC } from 'react';
-import { includes } from 'lodash';
+import { some } from 'lodash';
 import styled from 'styled-components';
 import { Button, Typography } from '@material-ui/core';
 import {
@@ -34,11 +34,11 @@ const PostItem: SFC<PostItemProps> = ({
 }) => {
   const { state } = useGlobalState();
   const user = state.username;
+  const isAuthor = user ? user.id === post.user.id : false;
   const hasVotedOrAuthor =
-    includes(post.likes, user) ||
-    includes(post.dislikes, user) ||
-    user === post.user;
-  const isAuthor = user === post.user;
+    some(post.likes, u => u.id === (user ? user.id : -1)) ||
+    some(post.dislikes, u => u.id === (user ? user.id : -1)) ||
+    isAuthor;
   return (
     <PostCard>
       <CardContent>

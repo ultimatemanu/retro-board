@@ -60,7 +60,7 @@ function App({ history }: AppProps) {
           </MainTitle>
           <Route exact path="/game/:gameId" render={() => <Invite />} />
           <Button color="inherit" buttonRef={menuAnchor} onClick={openMenu}>
-            {state.username || '--'}
+            {state.username ? state.username.name : '--'}
           </Button>
           <Menu
             anchorEl={menuAnchor.current}

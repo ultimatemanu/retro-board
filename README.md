@@ -23,7 +23,7 @@ It features the following technologies:
 - [Material UI design](https://www.google.com/design/spec/material-design/introduction.html)
 - [Styled Components](https://www.styled-components.com/)
 - [Multilingual](https://stackoverflow.com/questions/33413880/react-redux-and-multilingual-internationalization-apps-architecture) / Internationalization
-- [MongoDB](https://www.mongodb.org/) (optional), defaults to [NeDB](https://github.com/louischatriot/nedb) (in-process)
+- [Postgres](https://www.postgresql.org/) (optional), defaults to [NeDB](https://github.com/louischatriot/nedb) (in-process)
 - [Jest](https://facebook.github.io/jest) for Unit Testing
 - [React Testing Library](https://testing-library.com/docs/react-testing-library/intro), for Integration Tests
 - [Yarn](https://yarnpkg.com/en/), replacing NPM
@@ -38,7 +38,7 @@ Previous versions, up to v1.0.1 featured the following libraries:
 
 ## Prerequisites
 
-- `Yarn`: Please install Yarn, as this mono-repo uses **Yarn Workspaces** which won't work with NPM.
+- `Yarn`: Please install [Yarn](https://yarnpkg.com/en/), as this mono-repo uses **Yarn Workspaces** which won't work with NPM.
 
 ## How to try it out
 
@@ -57,12 +57,19 @@ Previous versions, up to v1.0.1 featured the following libraries:
 - `yarn start-ui` on the second terminal, to run live webpack with hot-reload
 - Open your browser on [http://localhost:3000](http://localhost:3000)
 
-## How to run for production
+## How to run for production, using Postgres
 
+- Prerequisites: [Yarn](https://yarnpkg.com/en/) and [Docker](https://www.docker.com/) with [docker-compose](https://docs.docker.com/compose/).
 - Clone this repository
+- Copy/rename `docker-compose.yml.example` to `docker-compose.yml` and configure it (or use the sensible defaults)
+- Execute `docker-compose up -d` to run the database in detached mode
 - `yarn` to install the dependencies (_not_ `npm i`!)
-- Build the server: `yarn build-server`, then run the server manually in one process: `node ./retro-board-server/dist/index.js`.
-- Build the ui: `yarn build-ui`, then serve the content (`./retro-board-app/build`) using your favourite Web Server (Apache, Nginx etc.)
+- Configure the main `.env` files by copying/renaming `.env.example` to `.env`.
+  - Change the `DB_TYPE` to `postgres`
+  - Make sure the configuration matches what you have on the docker-compose file (passwords, port etc.), although if you didn't change anything, the defaults will work.
+- Build the server: `NODE_ENV=production yarn build-server`, then run the backend manually in one process: `yarn start-server-production`. You can look at [pm2](http://pm2.keymetrics.io/) to manage your process automatically: `pm2 start ./retro-board-server/src/index.ts --name Retrospected` (don't forget to do `pm2 install typescript` before).
+- Build the ui: `NODE_ENV=production yarn build-ui`, then serve the content (`./retro-board-app/build`) using your favourite Web Server (Apache, Nginx etc.)
+- Configure your web server to redirect all api (/api/\*) calls to the server port (`3005` in the example above).
 
 ## How to run the tests
 
@@ -79,23 +86,13 @@ To enable it, you'll need to create a local `.env` file in `./retro-board-app/en
 
 Note: Google Analytics only works when using the production webpack config (i.e. when `NODE_ENV` is set to `production`).
 
-## How to use MongoDB
+## How to use Postgres
 
 By default, the database engine is NeDB, an in-process database with no external dependencies (i.e. no database to install on your system).
 
-If you want to use a more "production-ready" database such as MongoDB, create the configuration file as explained above in the Google Analytics section and set `DB_Use_Mongo` to `true`. You will of course need an instance of MongoDB running on your system for that to work.
+If you want to use a more "production-ready" database such as Postgres, look at the "How to run for production" section above.
 
 ## How to debug
-
-### Debugging the server
-
-- Run `yarn start-server-debug`
-- Don't forget to start the client side as well `yarn start-ui`
-- A Chrome Dev tool will open, wait a bit until it finishes loading
-- It will break at the first line of code, so once it's there, click continue
-- Then wait a bit (could be 20-30 seconds) for the code to run and the server to work properly
-- From now on, you can set up a breakpoint anywhere in the Chrome Dev tools and it should work.
-- Happy debugging!
 
 ### Debugging the client
 
@@ -104,20 +101,15 @@ If you want to use a more "production-ready" database such as MongoDB, create th
 - Go on the **Sources** tab, and on the left, find your sources under `webpack://` and then `.`.
 - You can then put breakpoints in there and debugging
 
-## Roadmap
-
-- Add more languages
-- GraphQL
-- Switch to a different component library (https://react.semantic-ui.com/introduction for instance)
-
 ## Versions history
 
 ### Version 2.0.0
 
 - Complete rewrite
 - TypeScript
-- Multi-repo
-- etc.
+- React Hooks
+- react-testing-library
+- New component library (MaterialUI)
 
 ### Version 1.0.1
 

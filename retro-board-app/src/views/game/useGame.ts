@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState, useCallback } from 'react';
-import { Actions, Post, PostType } from 'retro-board-common';
+import { Actions, Post, PostType, User } from 'retro-board-common';
 import { v4 } from 'uuid';
 import uniq from 'lodash/uniq';
 import { trackEvent } from './../../track';
@@ -11,7 +11,7 @@ const debug = process.env.REACT_APP_DEBUG === 'true';
 
 function sendFactory(
   socket: SocketIOClient.Socket,
-  user: string,
+  user: User,
   sessionId: string
 ) {
   return function(action: string, payload?: any) {

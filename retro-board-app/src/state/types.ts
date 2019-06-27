@@ -1,4 +1,4 @@
-import { Session } from 'retro-board-common';
+import { Session, User } from 'retro-board-common';
 
 export interface Action {
   type: string;
@@ -7,8 +7,8 @@ export interface Action {
 
 export interface State {
   panelOpen: boolean;
-  username: string | null;
-  players: string[];
+  username: User | null;
+  players: User[];
   session: Session;
   summaryMode: boolean;
 }
