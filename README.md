@@ -92,6 +92,12 @@ By default, the database engine is NeDB, an in-process database with no external
 
 If you want to use a more "production-ready" database such as Postgres, look at the "How to run for production" section above.
 
+### Backup Postgres from the Docker image
+
+- Get the docker image ID by doing: `docker ps`
+- Run `docker exec -t <docker_image_id> pg_dumpall -c -U postgres > dump_`date +%d-%m-%Y"_"%H_%M\_%S`.sql`
+- To restore your databases: `cat dump_1234.sql | docker exec -i <docker_image_id> psql -U postgres`
+
 ## How to debug
 
 ### Debugging the client
