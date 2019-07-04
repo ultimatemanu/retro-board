@@ -27,6 +27,7 @@ It features the following technologies:
 - [Jest](https://facebook.github.io/jest) for Unit Testing
 - [React Testing Library](https://testing-library.com/docs/react-testing-library/intro), for Integration Tests
 - [Yarn](https://yarnpkg.com/en/), replacing NPM
+- [Docker](https://docker.com), for easy deployment
 
 Previous versions, up to v1.0.1 featured the following libraries:
 
@@ -57,19 +58,36 @@ Previous versions, up to v1.0.1 featured the following libraries:
 - `yarn start-ui` on the second terminal, to run live webpack with hot-reload
 - Open your browser on [http://localhost:3000](http://localhost:3000)
 
-## How to run for production, using Postgres
+## How to run for Production using Docker
 
-- Prerequisites: [Yarn](https://yarnpkg.com/en/) and [Docker](https://www.docker.com/) with [docker-compose](https://docs.docker.com/compose/).
-- Clone this repository
-- Copy/rename `docker-compose.yml.example` to `docker-compose.yml` and configure it (or use the sensible defaults)
-- Execute `docker-compose up -d` to run the database in detached mode
-- `yarn` to install the dependencies (_not_ `npm i`!)
-- Configure the main `.env` files by copying/renaming `.env.example` to `.env`.
-  - Change the `DB_TYPE` to `postgres`
-  - Make sure the configuration matches what you have on the docker-compose file (passwords, port etc.), although if you didn't change anything, the defaults will work.
-- Build the server: `NODE_ENV=production yarn build-server`, then run the backend manually in one process: `yarn start-server-production`. You can look at [pm2](http://pm2.keymetrics.io/) to manage your process automatically: `pm2 start ./retro-board-server/src/index.ts --name Retrospected` (don't forget to do `pm2 install typescript` before).
-- Build the ui: `NODE_ENV=production yarn build-ui`, then serve the content (`./retro-board-app/build`) using your favourite Web Server (Apache, Nginx etc.)
-- Configure your web server to redirect all api (/api/\*) calls to the server port (`3005` in the example above).
+### Prerequisites
+
+You need to have `docker` and `docker-compose` installed on your system.
+
+### Result
+
+This will install a production-ready version of Retrospected automatically, using Postgres. You don't need to have anything installed other than Docker. This will install and run:
+
+- Postgres
+- pgAdmin4 (Web ui for postgres)
+- The Retrospected Nodejs backend
+- The frontend, served by `nginx`.
+
+### Installation
+
+- Copy `docker-compose.yml.example` to `docker-compose.yml`
+- Edit the file to set some passwords etc. You can also set your Google Analytics ID to enable GA.
+- Run `docker-compose build`: this will build the backend and frontend images, based on your settings.
+- Run `docker-compose up -d`
+- Voilà!
+
+### Backups
+
+When using the Docker deployment, your database runs from a container. But if you still need to make some backup of your data, you can do the following:
+
+- Get the docker database image ID by doing: `docker ps`
+- Run `` docker exec -t <docker_image_id> pg_dumpall -c -U postgres > dump_`date +%d-%m-%Y"_"%H_%M\_%S`.sql ``
+- To restore your databases: `cat dump_1234.sql | docker exec -i <docker_image_id> psql -U postgres`
 
 ## How to run the tests
 
@@ -86,17 +104,11 @@ To enable it, you'll need to create a local `.env` file in `./retro-board-app/en
 
 Note: Google Analytics only works when using the production webpack config (i.e. when `NODE_ENV` is set to `production`).
 
-## How to use Postgres
+## How to use Postgres (w/o Docker)
 
 By default, the database engine is NeDB, an in-process database with no external dependencies (i.e. no database to install on your system).
 
-If you want to use a more "production-ready" database such as Postgres, look at the "How to run for production" section above.
-
-### Backup Postgres from the Docker image
-
-- Get the docker image ID by doing: `docker ps`
-- Run `docker exec -t <docker_image_id> pg_dumpall -c -U postgres > dump_`date +%d-%m-%Y"_"%H_%M\_%S`.sql`
-- To restore your databases: `cat dump_1234.sql | docker exec -i <docker_image_id> psql -U postgres`
+If you want to use a more "production-ready" database such as Postgres (without Docker), copy `.env.example` to `.env`, change `DB_TYPE` to `postgres` and fill the rest.
 
 ## How to debug
 
