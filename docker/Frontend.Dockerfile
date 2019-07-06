@@ -1,4 +1,4 @@
-FROM node:10-alpine as Node
+FROM node:12-alpine as Node
 
 ARG GoogleAnalytics
 ENV REACT_APP_GA_ID "$GoogleAnalytics"

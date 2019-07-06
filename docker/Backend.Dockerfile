@@ -1,4 +1,4 @@
-FROM node:8
+FROM node:12
 
 # App directory
 WORKDIR /usr/src/backend
