@@ -7,7 +7,6 @@ RUN npm i -g yarn
 RUN npm i -g ts-node
 
 COPY ./package*.json ./
-COPY ./retro-board-app/package*.json ./retro-board-app/
 COPY ./retro-board-server/package*.json ./retro-board-server/
 COPY ./retro-board-common/package*.json ./retro-board-common/
 

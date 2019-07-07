@@ -8,7 +8,7 @@ WORKDIR /home/node/app
 RUN mkdir -p /home/node/app/node_modules && chown -R node:node /home/node/app
 
 COPY ./package*.json ./
-COPY ./retro-board-server/package*.json ./retro-board-server/
+# COPY ./retro-board-server/package*.json ./retro-board-server/
 COPY ./retro-board-app/package*.json ./retro-board-app/
 COPY ./retro-board-common/package*.json ./retro-board-common/
 
