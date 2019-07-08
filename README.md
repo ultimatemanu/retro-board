@@ -1,3 +1,20 @@
+# Docker for retro-board
+For any help and usage of this retro planning board please read the next paragraph.
+I have forked the retro-board from this git repository https://github.com/antoinejaussoin/retro-board and have added a Dockerfile for building and running it in a Docker container.
+
+## how to build and run your docker image
+
+In the retro-board directory open your Docker CMD program and run:
+```Shell
+docker build -t retro-board .
+```
+
+Run it in a Docker Container with:
+```Shell
+docker run -p 8080:8080 -d retro-board
+```
+This will run on http://192.168.99.100:8080
+
 # retro-board
 
 This is a Retrospective Idea board, powering [retrospected.com](http://www.retrospected.com).
